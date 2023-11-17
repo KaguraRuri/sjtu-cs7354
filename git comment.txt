@@ -1,0 +1,134 @@
+# comment for cs7354
+git clone git@github.com:KaguraRuri/sjtu-cs7354.git
+cd sjtu-cs7354
+
+
+# Task1:
+# 1. 创建新的分支
+git checkout -b feature-newFunc
+
+# 2. 第一次提交
+# 在 diary.txt 文件中添加条目
+echo "2023-10-28: Started developing a new feature." >> mydiary/diary.txt
+# 保存文件
+git add mydiary/diary.txt
+# 提交更改
+git commit -m "Added diary entry for feature work"
+
+# 3. 第二次提交
+# 再次在 diary.txt 文件中添加条目
+echo "2023-10-29: Continued work on the new feature." >> mydiary/diary.txt
+# 保存文件
+git add mydiary/diary.txt
+# 提交更改
+git commit -m "Added another diary entry for feature work"
+
+# 4. 提交新分支
+git push origin feature-newFunc
+
+# 5. 切换回 main 分支并保持更新
+git checkout main
+git pull origin main
+
+# 6. 合并 feature-newFunc 分支上的两次提交到 main 分支
+git merge feature-newFunc
+
+# 7.  推送更改到远程仓库
+git push origin main
+
+
+# Task2:
+# 1. 从 experiment 分支上获取所需更改
+# 切换到远程 experiment 分支
+git checkout remotes/origin/experiment
+
+# 查看 experiment 分支的提交历史，找到第一次commit的commit hash（comment为：Added new approach details.）
+git log
+
+# 2. 切换回 main 分支并保持更新
+git checkout main
+git pull origin main
+
+# 3. 应用选中的提交到 main 分支
+# 将第一次commit的更改应用到 main 分支（使用d58314c014e17c0f8091e4f715836e14815e443d替换<commit_hash>）
+git cherry-pick <commit_hash>
+
+# 4. 上传更改到远程仓库
+git push origin main
+
+
+# Task3:
+# 1. 从远程仓库获取 dev 分支
+git fetch origin dev:dev
+
+# 2. 切换到 dev 分支
+git checkout dev
+
+# 3. 检查当前的提交历史，找到上一次commit的commit hash（comment为：Add new content）
+git log
+
+# 4. 回退到目标提交（使用f9ae8ba11305d96bb9db322e3488c754f176ede0替换<commit-hash>）同时想保留这些错误提交的记录
+git revert <commit-hash>
+
+# 解决冲突后
+git revert --continue 
+
+# 5. 确认更改
+git log
+
+# 6. 推送到远程仓库
+git push origin dev
+
+
+# Task4:
+# 1. 切换到 main 分支
+git checkout main
+
+# 2. 修改 styles.css 文件
+# body { font-family: 'Times New Roman'; }
+
+# 3. 提交修改
+git add frontend/styles.css
+git commit -m "Change font in body to 'Times New Roman' on main branch"
+
+#  4.  切换到 feature-upload 分支：
+git fetch origin feature-upload:feature-upload
+git checkout feature-upload
+
+# 5. 查看 feature-upload 与 main 分支之间的差异：
+git diff main
+
+# 6. 合并 feature-upload 分支到 main：
+git checkout main
+git merge feature-upload
+
+# 有合并冲突，解决冲突后执行：
+git merge --continue
+
+# 7. 推送到远程仓库：
+git push origin main
+
+
+# Task5:
+# 1. 切换到 documentation 分支
+git fetch origin documentation:documentation
+git checkout documentation
+
+# 2. 开始交互式重组
+git rebase -i HEAD~4
+
+# 在交互式重组界面中，修改rebase文件为
+# pick 2fc2e17 Add contributing guide
+# pick 9cf2a7d Add installation guide
+# pick 1d3dee7 Update project overview with new feature description
+# squash 9caa536 Fix description in project overview
+
+# 3. 完成重组后，推送 documentaion 分支到远程仓库
+git push origin documentation --force-with-lease
+
+# 4. 将更改合并回 main 分支
+git checkout main
+git merge documentation
+
+# 5. 将更改推送回远程仓库
+git push origin main
